@@ -68,10 +68,10 @@ static void lexer_init (const char* src, size_t length)
 
         TokenType type = type_of_this(a, (i + 1 < length) ? src[1 + i] : 0);
         if (token_isnt_fixed_one(type)) {
-            size_t prev = i, token_len;
+            size_t a = i, token_len;
             token_len = go_deeper(src, &i, &type);
 
-            printf("token: %.*s <%d %d>\n", (int) token_len, src + prev, type, numline);
+            printf("token: %.*s <%d %d>\n", (int) token_len, src + a, type, numline);
         }
         else {
             printf("fixed: %c <%d %d>\n", type, type, numline);
