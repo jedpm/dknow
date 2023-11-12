@@ -68,9 +68,13 @@ static void lexer_init (const char* src, size_t length)
 
         TokenType type = type_of_this(a, (i + 1 < length) ? src[1 + i] : 0);
         if (token_isnt_fixed_one(type)) {
+            size_t prev = i, token_len;
+            token_len = go_deeper(src, &i, &type);
+
+            printf("token: %.*s <%d %d>\n", (int) token_len, src + prev, type, numline);
         }
         else {
-            printf("fixed token: %c <%d>\n", type, type);
+            printf("fixed: %c <%d %d>\n", type, type, numline);
         }
     }
 }
@@ -89,6 +93,7 @@ static TokenType type_of_this (const char a, const char b)
         case '/':
         case '*':
         case '%':
+        case '$':
         case '"': return a;
 
         case '-': return isdigit(b) ? TypeLitNumber    : TypeSymSub;
@@ -135,7 +140,6 @@ static size_t go_deeper (const char* src, size_t* pos, TokenType* type)
      * */
     if (*type == TypeLitString) len++;
     else *pos -= 1;
-
 
     if (*type == TypeSymUnknown)
         *type = kind_of_this_word(src, len);

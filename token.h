@@ -20,6 +20,7 @@ typedef enum {
     TypeSymGreter    = '>',
     TypeSymLess      = '<',
     TypeSymEquals    = '=',
+    TypeSymMaths     = '?',
     TypeLitString    = '"',
 
     TypeSymGreaterEq = 256,
@@ -31,5 +32,18 @@ typedef enum {
     TypeKwdDef,
     TypeKwdReturn,
 } TokenType;
+
+    /* Since strings are double quoted when
+     * the last quote is reached such token
+     * is not gonna be included since it is
+     * what delimites the string so the lexer
+     * will include it.
+     *
+     * For nonstring tokens the cursor position is
+     * decreased since when the lexer get the next
+     * character will skip the one which delimites
+     * the current one: an_id(
+     *                       ~ -> Would be skipped.
+     * */
 
 #endif
